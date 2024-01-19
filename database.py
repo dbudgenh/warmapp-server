@@ -1,7 +1,11 @@
 import pymongo
+import os
 
 class MongoDB:
-    def __init__(self, connection_string="localhost:27017", database_name="warmapp", collection_name="time-series"):
+    def __init__(self, database_name="warmapp", collection_name="time-series"):
+
+        # Read the connection string from an environment variable
+        connection_string = os.getenv('MONGO_URL', 'mongodb://localhost:27017')
         self.client = pymongo.MongoClient(connection_string)
         self.database = self.client[database_name]
         self.collection = self.database[collection_name]
