@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
-from pyngrok import ngrok
 from database import MongoDB
+import uvicorn
 
 app = FastAPI()
 db = MongoDB()
@@ -29,3 +29,7 @@ async def read_post(body:dict):
         db.insert(body)
     else:
         print("Else")
+
+    
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)          
