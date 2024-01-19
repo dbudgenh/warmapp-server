@@ -26,6 +26,7 @@ async def read_item(item_id: int, query_param: str = None):
 async def read_post(body:dict):
     print(body)
     if 'eventType' in body:
+        print(body)
         db.insert(body)
     else:
         print("Else")
