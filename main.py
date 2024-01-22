@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request,HTTPException
 from database import MongoDB
 import uvicorn
 
@@ -18,9 +18,12 @@ async def read_root(req:Request):
 async def read_put():
     print("Put request")
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, query_param: str = None):
-    return {"item_id": item_id, "query_param": query_param}
+@app.get("/sensorData/{device_id}")
+async def get_device(device_id: int):
+    result =  db.get_sensor_data_for_device(device_id)
+    if not result:
+        raise HTTPException(status_code=404,detail="device not found")
+    return result
 
 @app.post("/")
 async def read_post(body:dict):

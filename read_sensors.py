@@ -60,6 +60,7 @@ def query():
     else:
         print(f"Error: {response.status_code}")
         print("Response:", response.text)
+
 def update():
     apiHeader = get_api_header()
     url = 'https://api.switch-bot.com/v1.1/webhook/updateWebhook'
@@ -79,10 +80,33 @@ def update():
     else:
         print(f"Error: {response.status_code}")
         print("Response:", response.text)
+
+def get_device_status(id: str):
+    url = f'https://api.switch-bot.com/v1.1/devices/{device_id}/status'
+    api_header = get_api_header()
+    response = requests.get(url, headers=api_header)
+    if response.status_code == 200:
+        # Successful request
+        data = response.json()
+        status_code = data['statusCode']
+        message = data['message']
+        if int(status_code) == 100:
+            battery = data['body']['battery']
+            temperature = data['body']['temperature']
+            humidity = data['body']['humidity']
+            print(data)
+            #print(f'Name:{device_name}\nId:{device_id}\nType:{device_type}\nBattery:{battery}\nTemperature:{temperature}\nHumdidity:{humidity}')
+            print('---------------------------')
+        else:
+            print('Error:',message)
+    else:
+        print('Error:', response.status_code, response.text)
+
 def main():
     apiHeader = get_api_header()
     url = 'https://api.switch-bot.com/v1.1/devices'
     response = requests.get(url, headers=apiHeader)
+    result = {}
     # Check the response
     if response.status_code == 200:
         # Successful request
@@ -98,31 +122,11 @@ def main():
                 device_type = device['deviceType']
                 hub_device_id = device['hubDeviceId']
 
-                if "hub" in device_name.lower():
+                if "hub" in device_type.lower():
                     print("Skipping data from hub")
                     continue
-                # if hub_device_id == "000000000000":
-                #     print("Skipping sensor not connected to hub")
-                #     continue
-
-                url = f'https://api.switch-bot.com/v1.1/devices/{device_id}/status'
-                response = requests.get(url, headers=apiHeader)
-                if response.status_code == 200:
-                    # Successful request
-                    data = response.json()
-                    print(data)
-                    status_code = data['statusCode']
-                    message = data['message']
-                    if int(status_code) == 100:
-                        battery = data['body']['battery']
-                        temperature = data['body']['temperature']
-                        humidity = data['body']['humidity']
-                        print(f'Name:{device_name}\nId:{device_id}\nType:{device_type}\nBattery:{battery}\nTemperature:{temperature}\nHumdidity:{humidity}')
-                        print('---------------------------')
-                    else:
-                        print('Error:',message)
-                else:
-                    print('Error:', response.status_code, response.text)
+                result[device_id] = device_name
+            return result
         else:
             print('Error:',message)
     else:
@@ -130,4 +134,4 @@ def main():
 
 
 if __name__ == '__main__':
-    query()
+    main()
