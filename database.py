@@ -41,7 +41,9 @@ class MongoDB:
             query = {"context.deviceMac": device_id}
             #Exclude '_id' from output
             projection = {'_id':0}
-            return list(self.times_series_collection.find(query,projection))
+            result = self.times_series_collection.find(query,projection)
+            print(result)
+            return list(result)
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
