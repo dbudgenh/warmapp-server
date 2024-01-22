@@ -1,6 +1,5 @@
 import pymongo
 import os
-from bson.objectid import ObjectId
 from models import User
 
 class MongoDB:
@@ -44,12 +43,6 @@ class MongoDB:
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
-    def delete_document_by_id(self,doc_id):
-        try:
-            self.times_series_collection.delete_one({"_id": ObjectId(doc_id)})
-            print(f"Document with ID {doc_id} has been deleted.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
 
     def close_connection(self):
         """
