@@ -42,7 +42,6 @@ class MongoDB:
             #Exclude '_id' from output
             projection = {'_id':0}
             result = self.times_series_collection.find(query,projection)
-            print(result)
             return list(result)
         except Exception as e:
             print(f"An error occurred: {e}")
