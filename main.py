@@ -27,7 +27,6 @@ async def get_device(device_id: str):
 
 @app.post("/")
 async def read_post(body:dict):
-    print(body)
     if 'eventType' in body:
         print(body)
         db.insert(body)
