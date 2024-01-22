@@ -36,7 +36,7 @@ class MongoDB:
         except Exception as e:
             print(f"Error: {e}")
 
-    def get_sensor_data_for_device(self,device_id):
+    def get_sensor_data_for_device(self,device_id:str):
         try:
             query = {"context.deviceMac": device_id}
             return list(self.times_series_collection.find(query))

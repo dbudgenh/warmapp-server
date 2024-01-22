@@ -19,7 +19,7 @@ async def read_put():
     print("Put request")
 
 @app.get("/sensorData/{device_id}")
-async def get_device(device_id: int):
+async def get_device(device_id: str):
     result =  db.get_sensor_data_for_device(device_id)
     if not result:
         raise HTTPException(status_code=404,detail="device not found")
