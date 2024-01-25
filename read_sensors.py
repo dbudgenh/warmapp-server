@@ -8,8 +8,11 @@ import requests  # Import the requests library
 from database import MongoDB
 
 API_URL = "https://warmapp-server.onrender.com"
+TOKEN = "b0d308b991cfd23731963bb2bbac42a330ec01adfdbe4229fc40e25432fa289b369679849b3dad1c05e64166e1943fb2"
+SECRET_KEY = "ae14fd6cd1d6f7630857c8cea2faec27"
 
-def get_api_header(token = 'b0d308b991cfd23731963bb2bbac42a330ec01adfdbe4229fc40e25432fa289b369679849b3dad1c05e64166e1943fb2',secret = 'ae14fd6cd1d6f7630857c8cea2faec27'):
+def get_api_header(token = TOKEN,
+                   secret = SECRET_KEY):
     # Declare empty header dictionary
     apiHeader = {}
     nonce = uuid.uuid4()
